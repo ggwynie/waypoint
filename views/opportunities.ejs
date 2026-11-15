@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+<div class="between"><h1>Master Peluang</h1>
+<% if (user.role==='admin') { %><a class="btn" href="/opportunities/new">+ Tambah</a><% } %></div>
+<form method="get" class="inline card">
+  <input name="q" value="<%= q %>" placeholder="Cari judul / penyelenggara">
+  <select name="cat"><option value="">Semua kategori</option>
+    <% cats.forEach(c => { %><option value="<%= c.id %>" <%= String(c.id)===String(cat)?'selected':'' %>><%= c.name %></option><% }) %></select>
+  <button class="btn">Cari</button>
+</form>
+<div class="card"><table>
+<tr><th>Judul</th><th>Kategori</th><th>Penyelenggara</th><th>Lokasi</th><th>Deadline</th><th>Sisa</th><th>Aksi</th></tr>
+<% rows.forEach(o => { %><tr>
+<td><a href="<%= o.source_url %>" target="_blank" rel="noopener"><%= o.title %></a></td>
+<td><%= o.category_name %></td><td><%= o.organizer %></td><td><%= o.location %></td>
+<td><%= fmt(o.deadline) %></td>
+<td><span class="pill <%= o.days_left<0?'off':(o.days_left<=7?'warn':'') %>"><%= o.days_left<0?'Tutup':o.days_left+' hari' %></span></td>
+<td class="acts">
+<% if (user.role==='admin') { %>
+  <a class="btn sm" href="/opportunities/<%= o.id %>/edit">Ubah</a>
+  <form method="post" action="/opportunities/<%= o.id %>/delete" onsubmit="return confirm('Hapus peluang ini?')"><button class="btn sm danger">Hapus</button></form>
+<% } else if (o.days_left>=0) { %>
+  <form method="post" action="/saved"><input type="hidden" name="opportunity_id" value="<%= o.id %>"><input type="hidden" name="status" value="saved"><button class="btn sm">Simpan</button></form>
+<% } %></td></tr><% }) %>
+<% if (!rows.length) { %><tr><td colspan="7" class="muted">Tidak ada data.</td></tr><% } %>
+</table></div>
+<%- include('partials/footer') %>

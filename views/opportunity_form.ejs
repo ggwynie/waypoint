@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+<div class="card narrow wide"><h1><%= title %></h1>
+<form method="post" action="<%= action %>">
+  <label>Kategori<select name="category_id" required>
+    <% cats.forEach(c => { %><option value="<%= c.id %>" <%= o.category_id==c.id?'selected':'' %>><%= c.name %></option><% }) %></select></label>
+  <label>Judul<input name="title" value="<%= o.title||'' %>" required></label>
+  <label>Penyelenggara<input name="organizer" value="<%= o.organizer||'' %>" required></label>
+  <div class="row2">
+    <label>Lokasi (kota atau Online)<input name="location" value="<%= o.location||'' %>"></label>
+    <label>Deadline<input type="date" name="deadline" value="<%= o.deadline_str||'' %>" required></label>
+  </div>
+  <label>Link sumber<input type="url" name="source_url" value="<%= o.source_url||'' %>" required></label>
+  <div class="row2">
+    <label>Jurusan target (pisah koma, kosong = semua)<input name="target_major" value="<%= o.target_major||'' %>"></label>
+    <label>Min. semester<input type="number" name="min_semester" min="1" max="14" value="<%= o.min_semester||5 %>"></label>
+  </div>
+  <label>Deskripsi<textarea name="description" rows="4"><%= o.description||'' %></textarea></label>
+  <div class="inline"><button class="btn">Simpan</button><a class="btn ghost" href="/opportunities">Batal</a></div>
+</form></div>
+<%- include('partials/footer') %>

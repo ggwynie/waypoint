@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+<h1>Feed Untukmu</h1>
+<p class="muted">Diurutkan dengan skor yang transparan (tanpa AI). Klik "Kenapa?" untuk melihat rinciannya.</p>
+<% items.forEach(o => { %>
+<div class="card item">
+  <div class="between">
+    <div><span class="pill"><%= o.category_name %></span>
+      <h3><a href="<%= o.source_url %>" target="_blank" rel="noopener"><%= o.title %></a></h3>
+      <div class="muted"><%= o.organizer %> · <%= o.location %> · Deadline <%= fmt(o.deadline) %>
+      <span class="pill <%= o.days_left<=7?'warn':'' %>"><%= o.days_left %> hari lagi</span></div></div>
+    <div class="score"><b><%= o.score %></b>skor</div>
+  </div>
+  <p><%= o.description %></p>
+  <details><summary>Kenapa?</summary><ul><% o.why.forEach(w => { %><li><%= w %></li><% }) %></ul></details>
+  <div class="inline">
+    <% if (o.saved_status) { %><span class="pill ok">✓ <%= o.saved_status==='applied'?'Sudah daftar':'Tersimpan' %></span>
+    <% } else { %>
+    <form method="post" action="/saved"><input type="hidden" name="opportunity_id" value="<%= o.id %>"><input type="hidden" name="status" value="saved"><button class="btn sm">Simpan</button></form>
+    <% } %>
+    <form method="post" action="/saved"><input type="hidden" name="opportunity_id" value="<%= o.id %>"><input type="hidden" name="status" value="dismissed"><button class="btn sm ghost">Tidak relevan</button></form>
+  </div>
+</div>
+<% }) %>
+<% if (!items.length) { %><div class="card muted">Belum ada peluang yang cocok.</div><% } %>
+<%- include('partials/footer') %>

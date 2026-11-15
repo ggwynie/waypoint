@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+<div class="between"><h1>Laporan <%= user.role==='admin'?'(semua mahasiswa)':'' %></h1>
+<a class="btn" href="/report/csv?cat=<%= cat %>&status=<%= status %>">Unduh CSV</a></div>
+<form method="get" class="inline card">
+  <select name="cat"><option value="">Semua kategori</option>
+    <% cats.forEach(c => { %><option value="<%= c.id %>" <%= String(c.id)===String(cat)?'selected':'' %>><%= c.name %></option><% }) %></select>
+  <select name="status"><option value="">Semua status</option>
+    <option value="saved" <%= status==='saved'?'selected':'' %>>Tersimpan</option>
+    <option value="applied" <%= status==='applied'?'selected':'' %>>Sudah daftar</option></select>
+  <button class="btn">Filter</button>
+</form>
+<div class="stats">
+  <div class="stat"><b><%= rows.length %></b>Total item</div>
+  <% Object.keys(summary).forEach(k => { %><div class="stat"><b><%= summary[k] %></b><%= k %></div><% }) %>
+  <div class="stat"><b><%= missed %></b>Terlewat (tersimpan, deadline lewat)</div>
+</div>
+<div class="card"><table>
+<tr><th>Mahasiswa</th><th>Peluang</th><th>Kategori</th><th>Penyelenggara</th><th>Deadline</th><th>Sisa</th><th>Status</th></tr>
+<% rows.forEach(r => { %><tr><td><%= r.student %></td><td><%= r.title %></td><td><%= r.category %></td><td><%= r.organizer %></td>
+<td><%= fmt(r.deadline) %></td><td><%= r.days_left<0?'Tutup':r.days_left+' hari' %></td><td><%= r.status==='applied'?'Sudah daftar':'Tersimpan' %></td></tr><% }) %>
+<% if (!rows.length) { %><tr><td colspan="7" class="muted">Tidak ada data.</td></tr><% } %>
+</table></div>
+<%- include('partials/footer') %>

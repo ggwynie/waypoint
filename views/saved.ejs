@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<h1>Peluang Tersimpan</h1>
+<% rows.forEach(r => { %>
+<div class="card item">
+  <span class="pill"><%= r.category_name %></span>
+  <h3><a href="<%= r.source_url %>" target="_blank" rel="noopener"><%= r.title %></a></h3>
+  <div class="muted"><%= r.organizer %> · Deadline <%= fmt(r.deadline) %>
+    <span class="pill <%= r.days_left<0?'off':(r.days_left<=7?'warn':'') %>"><%= r.days_left<0?'Tutup':r.days_left+' hari lagi' %></span></div>
+  <form method="post" action="/saved/<%= r.id %>/update" class="inline">
+    <select name="status"><option value="saved" <%= r.status==='saved'?'selected':'' %>>Tersimpan</option><option value="applied" <%= r.status==='applied'?'selected':'' %>>Sudah daftar</option></select>
+    <label class="inl">Ingatkan H-<input type="number" name="remind_days_before" min="0" value="<%= r.remind_days_before %>" style="width:70px"></label>
+    <input name="note" value="<%= r.note %>" placeholder="Catatan">
+    <button class="btn sm">Simpan</button>
+  </form>
+  <form method="post" action="/saved/<%= r.id %>/delete" onsubmit="return confirm('Hapus dari daftar?')"><button class="btn sm danger">Hapus</button></form>
+</div>
+<% }) %>
+<% if (!rows.length) { %><div class="card muted">Belum ada yang disimpan. Mulai dari <a href="/feed">feed</a>.</div><% } %>
+<%- include('partials/footer') %>

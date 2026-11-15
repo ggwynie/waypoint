@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title><%= title %> · Waypoint</title>
+<link rel="stylesheet" href="/style.css"></head><body>
+<header class="nav"><div class="wrap navin">
+  <a class="brand" href="/">◆ Waypoint</a>
+  <% if (user) { %>
+  <nav>
+    <a href="/dashboard" class="<%= currentPath==='/dashboard'?'on':'' %>">Dashboard</a>
+    <a href="/feed" class="<%= currentPath==='/feed'?'on':'' %>">Feed</a>
+    <a href="/saved" class="<%= currentPath==='/saved'?'on':'' %>">Tersimpan</a>
+    <a href="/opportunities" class="<%= currentPath.startsWith('/opportunities')?'on':'' %>">Peluang</a>
+    <% if (user.role==='admin') { %><a href="/categories" class="<%= currentPath==='/categories'?'on':'' %>">Kategori</a><% } %>
+    <a href="/report" class="<%= currentPath.startsWith('/report')?'on':'' %>">Laporan</a>
+  </nav>
+  <div class="who"><a href="/profile"><%= user.name %></a> <span class="pill"><%= user.role %></span> <a href="/logout">Keluar</a></div>
+  <% } %>
+</div></header>
+<main class="wrap">
+<% if (flash) { %><div class="flash <%= flash.type %>"><%= flash.msg %></div><% } %>

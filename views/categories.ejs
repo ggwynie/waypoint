@@ -1,0 +1,11 @@
+<%- include('partials/header') %>
+<h1>Master Kategori</h1>
+<div class="card">
+<form method="post" action="/categories" class="inline"><input name="name" placeholder="Nama kategori baru" required><button class="btn">Tambah</button></form>
+<table><tr><th>Nama</th><th>Peluang</th><th>Aksi</th></tr>
+<% rows.forEach(r => { %><tr>
+<td><form method="post" action="/categories/<%= r.id %>/update" class="inline"><input name="name" value="<%= r.name %>" required><button class="btn sm">Ubah</button></form></td>
+<td><%= r.total %></td>
+<td><form method="post" action="/categories/<%= r.id %>/delete" onsubmit="return confirm('Hapus kategori ini?')"><button class="btn sm danger">Hapus</button></form></td>
+</tr><% }) %></table></div>
+<%- include('partials/footer') %>

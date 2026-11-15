@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+<h1>Dashboard</h1>
+<% if (user.role==='admin') { %>
+<div class="stats">
+  <div class="stat"><b><%= d.students %></b>Mahasiswa</div>
+  <div class="stat"><b><%= d.open %></b>Peluang terbuka</div>
+  <div class="stat"><b><%= d.saved %></b>Item tersimpan</div>
+</div>
+<div class="card"><h2>Peluang per kategori</h2>
+<table><tr><th>Kategori</th><th>Jumlah</th></tr>
+<% d.byCat.forEach(c => { %><tr><td><%= c.name %></td><td><%= c.n %></td></tr><% }) %></table>
+<a class="btn" href="/opportunities/new">+ Tambah peluang</a></div>
+<% } else { %>
+<div class="stats">
+  <div class="stat"><b><%= d.open %></b>Peluang terbuka</div>
+  <div class="stat"><b><%= d.saved %></b>Tersimpan</div>
+  <div class="stat"><b><%= d.applied %></b>Sudah daftar</div>
+</div>
+<div class="card"><h2>⏰ Pengingat deadline</h2>
+<% if (!d.reminders.length) { %><p class="muted">Tidak ada deadline mendesak dari item tersimpan.</p>
+<% } else { %><table><tr><th>Peluang</th><th>Kategori</th><th>Deadline</th><th>Sisa</th></tr>
+<% d.reminders.forEach(r => { %><tr><td><%= r.title %></td><td><%= r.category %></td><td><%= fmt(r.deadline) %></td>
+<td><span class="pill warn"><%= r.days_left %> hari</span></td></tr><% }) %></table><% } %>
+<a class="btn" href="/feed">Lihat feed untukmu</a></div>
+<% } %>
+<%- include('partials/footer') %>

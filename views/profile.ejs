@@ -1,0 +1,15 @@
+<%- include('partials/header') %>
+<div class="card narrow"><h1>Profil</h1>
+<p class="muted"><%= p.email %></p>
+<form method="post" action="/profile">
+  <label>Nama<input name="name" value="<%= p.name %>" required></label>
+  <div class="row2">
+    <label>Semester<input type="number" name="semester" min="1" max="14" value="<%= p.semester %>"></label>
+    <label>Jurusan<input name="major" value="<%= p.major %>"></label>
+  </div>
+  <label>Kota<input name="city" value="<%= p.city %>"></label>
+  <label>Minat (pisah koma)<input name="interests" value="<%= p.interests %>"></label>
+  <label>Skill (pisah koma)<input name="skills" value="<%= p.skills %>"></label>
+  <button class="btn">Simpan</button>
+</form></div>
+<%- include('partials/footer') %>

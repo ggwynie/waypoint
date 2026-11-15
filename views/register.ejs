@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+<div class="card narrow"><h1>Daftar</h1>
+<form method="post" action="/register">
+  <label>Nama<input name="name" value="<%= form.name||'' %>" required></label>
+  <label>Email<input type="email" name="email" value="<%= form.email||'' %>" required></label>
+  <label>Password (min. 6)<input type="password" name="password" minlength="6" required></label>
+  <div class="row2">
+    <label>Semester<input type="number" name="semester" min="1" max="14" value="<%= form.semester||5 %>"></label>
+    <label>Jurusan<input name="major" value="<%= form.major||'' %>" placeholder="Informatika"></label>
+  </div>
+  <label>Kota<input name="city" value="<%= form.city||'' %>" placeholder="Bandung"></label>
+  <label>Minat (pisah koma)<input name="interests" value="<%= form.interests||'' %>" placeholder="web, data, startup"></label>
+  <label>Skill (pisah koma)<input name="skills" value="<%= form.skills||'' %>" placeholder="javascript, python"></label>
+  <button class="btn">Daftar</button>
+</form>
+<p class="muted">Sudah punya akun? <a href="/login">Masuk</a></p></div>
+<%- include('partials/footer') %>
